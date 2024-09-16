@@ -4,16 +4,16 @@ const url = require('url')
 let count = 0
 
 function handleRequest(request, response) {
+  response.setHeader('Access-Control-Allow-Origin', '*') /* @dev First, read about security */
+  response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
+  response.setHeader('Access-Control-Max-Age', 2592000) // 30 days
+  response.setHeader('Access-Control-Allow-Headers', 'content-type')
   const path = url.parse(request.url).pathname
   if (path === '/input') {
     count += 1
     response.end()
     return
   }
-  response.setHeader('Access-Control-Allow-Origin', '*') /* @dev First, read about security */
-  response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
-  response.setHeader('Access-Control-Max-Age', 2592000) // 30 days
-  response.setHeader('Access-Control-Allow-Headers', 'content-type')
   response.writeHead(200, {
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",

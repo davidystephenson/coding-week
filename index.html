@@ -1,13 +1,20 @@
+<button id="input">Input</button>
+
 <script>
-  const source = new EventSource("https://coding-week.onrender.com/");
-  // const source = new EventSource("http://localhost:8000");
+  const inputButton = document.getElementById('input')
+  inputButton.onclick = async function () {
+    await fetch('https://coding-week.onrender.com/input')
+    console.log('SENT', response)
+  }
+  const source = new EventSource("https://coding-week.onrender.com/")
+  // const source = new EventSource("http://localhost:8000")
 
   source.onmessage = function (event) {
-    console.log('RECEIVED', event.data);
+    console.log('RECEIVED', event.data)
   }
 
   // source.addEventListener('message', e => {
-  //   console.log('RECEIVED', e.data);
+  //   console.log('RECEIVED', e.data)
   // }, false)
 
   // source.addEventListener('open', function (e) {
