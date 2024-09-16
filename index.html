@@ -1,5 +1,5 @@
 <script>
-  const source = new EventSource("http://localhost:8000/random");
+  const source = new EventSource("https://coding-week.onrender.com/");
 
   source.onmessage = function (event) {
     console.log('RECEIVED', event.data);
