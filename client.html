@@ -1,0 +1,19 @@
+<script>
+  const source = new EventSource("http://localhost:8000/random");
+
+  source.onmessage = function (event) {
+    console.log('RECEIVED', event.data);
+  }
+
+  // source.addEventListener('message', e => {
+  //   console.log('RECEIVED', e.data);
+  // }, false)
+
+  // source.addEventListener('open', function (e) {
+  //   console.log('open')
+  // }, false)
+
+  // source.addEventListener('error', function (e) {
+  //   console.log('error')
+  // }, false)
+</script>
