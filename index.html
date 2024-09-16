@@ -1,16 +1,28 @@
 <button id="input">Input</button>
+<button id="red">Red</button>
+<button id="black">Black</button>
 
 <script>
-  const inputButton = document.getElementById('input')
-  inputButton.onclick = async function () {
-    await fetch('https://coding-week.onrender.com/input')
-    console.log('SENT', response)
-  }
-  const source = new EventSource("https://coding-week.onrender.com/")
-  // const source = new EventSource("http://localhost:8000")
-
+  // const api = 'https://coding-week.onrender.com'
+  const api = 'http://localhost:10000'
+  const source = new EventSource(`${api}/source`)
   source.onmessage = function (event) {
     console.log('RECEIVED', event.data)
+  }
+
+  const inputButton = document.getElementById('input')
+  inputButton.onclick = async function () {
+    await fetch(`${api}/input`)
+  }
+
+  const redButton = document.getElementById('red')
+  redButton.onclick = async function () {
+    await fetch(`${api}/red`)
+  }
+
+  const blackButton = document.getElementById('black')
+  blackButton.onclick = async function () {
+    await fetch(`${api}/black`)
   }
 
   // source.addEventListener('message', e => {
