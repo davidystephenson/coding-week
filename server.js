@@ -27,7 +27,7 @@ function handleRequest(request, response) {
   }
   setInterval(handleOutput, 1000);
 }
-const port = 8000;
+const port = 10000;
 function handleListen() {
   console.log('Server is listening on port', port);
 }
