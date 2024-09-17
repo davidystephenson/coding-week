@@ -18,8 +18,8 @@
   black.style.backgroundColor = 'black'
   black.style.color = 'white'
 
-  // const api = 'https://coding-week.onrender.com'
-  const api = 'http://localhost:10000'
+  const api = 'https://coding-week.onrender.com'
+  // const api = 'http://localhost:10000'
   const source = new EventSource(`${api}/connect`)
   source.onmessage = function (event) {
     const game = JSON.parse(event.data)
