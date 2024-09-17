@@ -4,31 +4,36 @@ const url = require('url')
 const game = {
   bet: 'red',
   color: 'red',
-  count: 0,
-  money: 0
+  money: 0,
+  time: 10
 }
 
-function handleSpin() {
-  console.log('spin')
+function spin() {
+  if (game.time > 0) {
+    game.time -= 1
+    setTimeout(spin, 1000)
+    return
+  }
   const red = game.color === 'red'
   const newColor = red ? 'black' : 'red'
   game.color = newColor
 
   const random = Math.random()
-  if (random < 0.95) {
-    setTimeout(handleSpin, 200)
+  if (random < 0.97) {
+    setTimeout(spin, 200)
   } else {
     if (game.bet === game.color) {
       game.money += 1
     } else {
       game.money -= 1
     }
-    setTimeout(handleSpin, 10000)
+    game.time = 10
+    spin()
   }
 }
-handleSpin()
+spin()
 
-function handleRequest(request, response) {
+function respond(request, response) {
   response.setHeader('Access-Control-Allow-Origin', '*') /* @dev First, read about security */
   response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET')
   response.setHeader('Access-Control-Max-Age', 2592000) // 30 days
@@ -47,16 +52,13 @@ function handleRequest(request, response) {
       response.write('event: message\n');
       response.write(`data:${json}\n\n`);
     }
-    const interval = setInterval(handleOutput, 1000);
+    const interval = setInterval(handleOutput, 100);
     request.on('close', () => {
       console.log('close')
       clearInterval(interval)
       response.end()
     })
     return
-  }
-  if (path === '/input') {
-    game.count += 1
   }
   if (path === '/red') {
     game.bet = 'red'
@@ -66,9 +68,8 @@ function handleRequest(request, response) {
   }
   response.end()
 }
-const port = 10000;
-function handleListen() {
-  console.log('Server is listening on port', port);
+const server = http.createServer(respond)
+function ready() {
+  console.log('Listening on port 10000')
 }
-const server = http.createServer(handleRequest)
-server.listen(port, handleListen);
+server.listen(10000, ready)
