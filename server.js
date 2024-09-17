@@ -27,7 +27,6 @@ function spin() {
   } else {
     for (const id in game.players) {
       const player = game.players[id]
-
       if (player.bet === game.color) {
         player.money += 1
       } else {
@@ -47,9 +46,7 @@ function respond(request, response) {
   response.setHeader('Access-Control-Max-Age', 2592000)
   response.setHeader('Access-Control-Allow-Headers', 'content-type')
   const path = url.parse(request.url).pathname
-  console.log('path', path)
   if (path === '/connect') {
-    console.log('connect')
     const id = crypto.randomUUID().slice(0, 6)
     game.players[id] = {
       bet: 'red',
