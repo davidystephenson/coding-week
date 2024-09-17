@@ -76,7 +76,9 @@ function respond(request, response) {
   const bet = parts[1]
   const id = parts[2]
   const player = game.players[id]
-  game.players[id].bet = bet
+  if (player) {
+    game.players[id].bet = bet
+  }
   response.end()
 }
 const server = http.createServer(respond)
