@@ -1,54 +1,61 @@
 <h1 id='time'>10</h1>
-<h2 id='money'>$0</h1>
-<button id="red">Red</button>
-<button id="black">Black</button>
+<h2>
+  <span id="player"></span>
+  <button id="red">Red</button>
+  <button id="black">Black</button>
+</h1>
+<div id="list"></div>
 
 <script>
   const time = document.getElementById('time')
-  const money = document.getElementById('money')
   const red = document.getElementById('red')
   const black = document.getElementById('black')
+  const player = document.getElementById('player')
+  const list = document.getElementById('list')
+
   red.style.backgroundColor = 'red'
   black.style.backgroundColor = 'black'
   black.style.color = 'white'
 
   // const api = 'https://coding-week.onrender.com'
   const api = 'http://localhost:10000'
-  const source = new EventSource(`${api}/source`)
+  const source = new EventSource(`${api}/connect`)
   source.onmessage = function (event) {
-    console.log('RECEIVED', event.data)
     const game = JSON.parse(event.data)
     time.innerText = game.time
-    time.style.backgroundColor = game.color
-    const textColor = game.color === 'red' ? 'black' : 'white'
-    time.style.color = textColor
-    money.innerText = `$${game.money}`
-    if (game.bet === 'red') {
+    time.style.color = game.color
+
+    player.innerText = `${game.player.id}: $${game.player.money}`
+    player.style.color = game.player.bet
+    if (game.player.bet === 'red') {
       red.style.fontSize = '20px'
-      black.style.fontSize = '16px'
+      black.style.fontSize = '14px'
     } else {
       black.style.fontSize = '20px'
-      red.style.fontSize = '16px'
+      red.style.fontSize = '14px'
+    }
+
+    list.innerHTML = ''
+
+    const players = Object.values(game.players)
+    players.sort((a, b) => b.money - a.money)
+
+    for (const player of players) {
+      const paragraph = document.createElement('p')
+      paragraph.innerText = `${player.id}: $${player.money}`
+      paragraph.style.color = player.bet
+      if (player.id === game.player.id) {
+        paragraph.style.fontSize = '20px'
+      }
+      list.appendChild(paragraph)
+    }
+
+    red.onclick = async function () {
+      await fetch(`${api}/red/${game.player.id}`)
+    }
+
+    black.onclick = async function () {
+      await fetch(`${api}/black/${game.player.id}`)
     }
   }
-
-  red.onclick = async function () {
-    await fetch(`${api}/red`)
-  }
-
-  black.onclick = async function () {
-    await fetch(`${api}/black`)
-  }
-
-  // source.addEventListener('message', e => {
-  //   console.log('RECEIVED', e.data)
-  // }, false)
-
-  // source.addEventListener('open', function (e) {
-  //   console.log('open')
-  // }, false)
-
-  // source.addEventListener('error', function (e) {
-  //   console.log('error')
-  // }, false)
 </script>
