@@ -1,14 +1,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<h1 id='time'>10</h1>
-<img id="wheel" />
-<h2>
-  <span id="player"></span>
-  <button id="red">Red</button>
-  <button id="black">Black</button>
-</h1>
-<h1>Players</h1>
-<div id="list"></div>
+<div id="container">
+  <marquee>
+    <h1>Roulette!</h1>
+  </marquee>
+  <h1 id='time'>10</h1>
+  <img id="wheel" />
+  <h2>
+    <span id="player"></span>
+    <button id="red">Red</button>
+    <button id="black">Black</button>
+  </h2>
+  <h1>Players</h1>
+  <div id="list"></div>
+</div>
 
 <script>
   const time = document.getElementById('time')
@@ -17,6 +22,11 @@
   const player = document.getElementById('player')
   const list = document.getElementById('list')
   const wheel = document.getElementById('wheel')
+  const container = document.getElementById('container')
+
+  container.style.margin = '0 auto'
+  container.style.width = 'fit-content'
+  time.style.textAlign = 'center'
 
   red.style.backgroundColor = 'red'
   black.style.backgroundColor = 'black'
