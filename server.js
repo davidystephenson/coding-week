@@ -68,6 +68,7 @@ function respond(request, response) {
     const interval = setInterval(handleOutput, 100);
     request.on('close', () => {
       clearInterval(interval)
+      delete game.players[id]
       response.end()
     })
     return

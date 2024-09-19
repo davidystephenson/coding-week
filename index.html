@@ -1,4 +1,5 @@
 <h1 id='time'>10</h1>
+<img id="wheel" />
 <h2>
   <span id="player"></span>
   <button id="red">Red</button>
@@ -13,18 +14,28 @@
   const black = document.getElementById('black')
   const player = document.getElementById('player')
   const list = document.getElementById('list')
+  const wheel = document.getElementById('wheel')
 
   red.style.backgroundColor = 'red'
   black.style.backgroundColor = 'black'
   black.style.color = 'white'
 
-  const api = 'https://coding-week.onrender.com'
-  // const api = 'http://localhost:10000'
+  const blackWheel = 'https://i.imgur.com/STzam77.png'
+  const redWheel = 'https://i.imgur.com/hvjg5tF.png'
+  wheel.style.width = '250px'
+
+  // const api = 'https://coding-week.onrender.com'
+  const api = 'http://localhost:10000'
   const source = new EventSource(`${api}/connect`)
   source.onmessage = function (event) {
     const game = JSON.parse(event.data)
     time.innerText = game.time
     time.style.color = game.color
+    if (game.color === 'red') {
+      wheel.src = redWheel
+    } else {
+      wheel.src = blackWheel
+    }
 
     player.innerText = `${game.player.id}: $${game.player.money}`
     player.style.color = game.player.bet
